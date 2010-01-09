@@ -2,8 +2,6 @@
 /**
  * MySQLi layer for DBO
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -49,8 +47,7 @@ class DboMysqli extends DboMysqlBase {
 		'login' => 'root',
 		'password' => '',
 		'database' => 'cake',
-		'port' => '3306',
-		'connect' => 'mysqli_connect'
+		'port' => '3306'
 	);
 
 /**

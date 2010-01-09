@@ -103,7 +103,7 @@ final class Configure extends Object {
 			}
 		}
 
-		if (isset($config['debug'])) {
+		if (isset($config['debug']) || isset($config['log'])) {
 			$reporting = 0;
 			if (self::$__values['debug']) {
 				if (!class_exists('Debugger')) {

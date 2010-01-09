@@ -2,8 +2,6 @@
 /**
  * Language string extractor
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)

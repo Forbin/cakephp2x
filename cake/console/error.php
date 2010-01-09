@@ -2,9 +2,7 @@
 /**
  * ErrorHandler for Console Shells
  *
- * Long description for file
- *
- * PHP Version 5.x
+ * PHP version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright 2005-2009, Cake Software Foundation, Inc. (http://cakefoundation.org)

@@ -2,8 +2,6 @@
 /**
  * The DbConfig Task handles creating and updating the database.php
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)

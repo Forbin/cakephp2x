@@ -171,6 +171,7 @@
  *
  * @return array Array of given parameters
  * @link http://book.cakephp.org/view/694/a
+ * @deprecated Will be removed in 2.0
  */
 	function a() {
 		$args = func_get_args();
@@ -190,6 +191,7 @@
  *
  * @return array Associative array
  * @link http://book.cakephp.org/view/695/aa
+ * @deprecated Will be removed in 2.0
  */
 	function aa() {
 		$args = func_get_args();
@@ -210,6 +212,7 @@
  *
  * @param string $text String to echo
  * @link http://book.cakephp.org/view/700/e
+ * @deprecated Will be removed in 2.0
  */
 	function e($text) {
 		echo $text;
@@ -237,6 +240,7 @@
  *
  * @param mixed $p Parameter as string or array
  * @return string
+ * @deprecated Will be removed in 2.0
  */
 	function params($p) {
 		if (!is_array($p) || count($p) == 0) {
@@ -751,6 +755,7 @@
  * @param mixed $val2 Value to return if condition doesn't match
  * @return mixed $val1 or $val2, depending on whether $condition evaluates to a non-empty expression.
  * @link http://book.cakephp.org/view/704/ife
+ * @deprecated Will be removed in 2.0
  */
 	function ife($condition, $val1 = null, $val2 = null) {
 		if (!empty($condition)) {

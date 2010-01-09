@@ -2,8 +2,6 @@
 /**
  * The Plugin Task handles creating an empty plugin, ready to be used
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -33,6 +31,7 @@ class PluginTask extends Shell {
  *
  */
 	var $tasks = array('Model', 'Controller', 'View');
+
 /**
  * path to CONTROLLERS directory
  *
@@ -40,6 +39,7 @@ class PluginTask extends Shell {
  * @access public
  */
 	var $path = null;
+
 /**
  * initialize
  *
@@ -48,6 +48,7 @@ class PluginTask extends Shell {
 	function initialize() {
 		$this->path = APP . 'plugins' . DS;
 	}
+
 /**
  * Execution method always used for tasks
  *
@@ -196,6 +197,7 @@ class PluginTask extends Shell {
 
 		return true;
 	}
+
 /**
  * find and change $this->path to the user selection
  *

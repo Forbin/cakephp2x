@@ -2,8 +2,6 @@
 /**
  * DataSource base class
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -22,8 +20,6 @@
 
 /**
  * DataSource base class
- *
- * Long description for file
  *
  * @package       cake
  * @subpackage    cake.cake.libs.model.datasources
@@ -205,11 +201,14 @@ class DataSource extends Object {
  * should be cached
  *
  * @var boolean
+ * @access public
  */
 	public $cacheSources = true;
 
 /**
  * Constructor.
+ *
+ * @param array $config Array of configuration information for the datasource.
  */
 	public function __construct($config = array()) {
 		parent::__construct();
@@ -219,7 +218,9 @@ class DataSource extends Object {
 /**
  * Caches/returns cached results for child instances
  *
- * @return array
+ * @param mixed $data
+ * @return array Array of sources available in this datasource.
+ * @access public
  */
 	public function listSources($data = null) {
 		if ($this->cacheSources === false) {
@@ -246,7 +247,9 @@ class DataSource extends Object {
 /**
  * Convenience method for DboSource::listSources().  Returns source names in lowercase.
  *
- * @return array
+ * @param boolean $reset Whether or not the source list should be reset.
+ * @return array Array of sources available in this datasource
+ * @access public
  */
 	public function sources($reset = false) {
 		if ($reset === true) {
@@ -259,7 +262,8 @@ class DataSource extends Object {
  * Returns a Model description (metadata) or null if none found.
  *
  * @param Model $model
- * @return mixed
+ * @return array Array of Metadata for the $model
+ * @access public
  */
 	public function describe($model) {
 		if ($this->cacheSources === false) {
@@ -282,6 +286,7 @@ class DataSource extends Object {
  * Begin a transaction
  *
  * @return boolean Returns true if a transaction is not in progress
+ * @access public
  */
 	public function begin(&$model) {
 		return !$this->_transactionStarted;
@@ -291,6 +296,7 @@ class DataSource extends Object {
  * Commit a transaction
  *
  * @return boolean Returns true if a transaction is in progress
+ * @access public
  */
 	public function commit(&$model) {
 		return $this->_transactionStarted;
@@ -300,6 +306,7 @@ class DataSource extends Object {
  * Rollback a transaction
  *
  * @return boolean Returns true if a transaction is in progress
+ * @access public
  */
 	public function rollback(&$model) {
 		return $this->_transactionStarted;
@@ -310,6 +317,7 @@ class DataSource extends Object {
  *
  * @param string $real Real  column type (i.e. "varchar(255)")
  * @return string Abstract column type (i.e. "string")
+ * @access public
  */
 	public function column($real) {
 		return false;
@@ -324,6 +332,7 @@ class DataSource extends Object {
  * @param array $fields An Array of fields to be saved.
  * @param array $values An Array of values to save.
  * @return boolean success
+ * @access public
  */
 	public function create(&$model, $fields = null, $values = null) {
 		return false;
@@ -337,6 +346,7 @@ class DataSource extends Object {
  * @param Model $model The model being read.
  * @param array $queryData An array of query data used to find the data you want
  * @return mixed
+ * @access public
  */
 	public function read(&$model, $queryData = array()) {
 		return false;
@@ -351,6 +361,7 @@ class DataSource extends Object {
  * @param array $fields Array of fields to be updated
  * @param array $values Array of values to be update $fields to.
  * @return boolean Success
+ * @access public
  */
 	public function update(&$model, $fields = null, $values = null) {
 		return false;
@@ -363,6 +374,7 @@ class DataSource extends Object {
  *
  * @param Model $model The model class having record(s) deleted
  * @param mixed $id Primary key of the model 
+ * @access public
  */
 	public function delete(&$model, $id = null) {
 		if ($id == null) {
@@ -374,7 +386,8 @@ class DataSource extends Object {
  * Returns the ID generated from the previous INSERT operation.
  *
  * @param unknown_type $source
- * @return in
+ * @return mixed Last ID key generated in previous INSERT
+ * @access public
  */
 	public function lastInsertId($source = null) {
 		return false;
@@ -384,7 +397,8 @@ class DataSource extends Object {
  * Returns the ID generated from the previous INSERT operation.
  *
  * @param unknown_type $source
- * @return in
+ * @return integer Number of rows returned by last operation
+ * @access public
  */
 	public function lastNumRows($source = null) {
 		return false;
@@ -394,7 +408,8 @@ class DataSource extends Object {
  * Returns the ID generated from the previous INSERT operation.
  *
  * @param unknown_type $source
- * @return in
+ * @return integer Number of rows affected by last query.
+ * @access public
  */
 	public function lastAffected($source = null) {
 		return false;
@@ -406,8 +421,9 @@ class DataSource extends Object {
  * before establishing a connection.
  *
  * @return boolean Whether or not the Datasources conditions for use are met.
+ * @access public
  */
-	function enabled() {
+	public function enabled() {
 		return true;
 	}
 /**
@@ -415,6 +431,7 @@ class DataSource extends Object {
  *
  * @param string $interface The name of the interface (method)
  * @return boolean True on success
+ * @access public
  */
 	public function isInterfaceSupported($interface) {
 		$methods = get_class_methods(get_class($this));
@@ -425,10 +442,12 @@ class DataSource extends Object {
 	}
 
 /**
- * Sets the configuration for the DataSource
+ * Sets the configuration for the DataSource.
+ * Merges the $config information with the _baseConfig and the existing $config property.
  *
  * @param array $config The configuration array
  * @return void
+ * @access public
  */
 	public function setConfig($config = array()) {
 		$this->config = array_merge($this->_baseConfig, $this->config, $config);
@@ -439,6 +458,8 @@ class DataSource extends Object {
  *
  * @param string $object The name of the object (model) to cache
  * @param mixed $data The description of the model, usually a string or array
+ * @return mixed
+ * @access private
  */
 	protected function __cacheDescription($object, $data = null) {
 		if ($this->cacheSources === false) {
@@ -461,16 +482,18 @@ class DataSource extends Object {
 	}
 
 /**
- * Enter description here...
+ * Replaces `{$__cakeID__$}` and `{$__cakeForeignKey__$}` placeholders in query data.
  *
- * @param unknown_type $query
- * @param unknown_type $data
- * @param unknown_type $association
+ * @param string $query Query string needing replacements done.
+ * @param array $data Array of data with values that will be inserted in placeholders.
+ * @param string $association Name of association model being replaced
  * @param unknown_type $assocData
- * @param Model $model
- * @param Model $linkModel
+ * @param Model $model Instance of the model to replace $__cakeID__$ 
+ * @param Model $linkModel Instance of model to replace $__cakeForeignKey__$
  * @param array $stack
- * @return unknown
+ * @return string String of query data with placeholders replaced.
+ * @access public
+ * @todo Remove and refactor $assocData, ensure uses of the method have the param removed too.
  */
 	public function insertQueryData($query, $data, $association, $assocData, &$model, &$linkModel, $stack) {
 		$keys = array('{$__cakeID__$}', '{$__cakeForeignKey__$}');
@@ -544,9 +567,10 @@ class DataSource extends Object {
 /**
  * To-be-overridden in subclasses.
  *
- * @param unknown_type $model
- * @param unknown_type $key
- * @return unknown
+ * @param Model $model Model instance
+ * @param string $key Key name to make
+ * @return string Key name for model.
+ * @access public
  */
 	public function resolveKey($model, $key) {
 		return $model->alias . $key;

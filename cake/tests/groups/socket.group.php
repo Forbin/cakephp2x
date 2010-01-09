@@ -2,8 +2,6 @@
 /**
  * Socket and HttpSocket Group tests
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) Tests <https://trac.cakephp.org/wiki/Developement/TestSuite>

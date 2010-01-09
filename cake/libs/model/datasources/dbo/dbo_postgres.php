@@ -2,8 +2,6 @@
 /**
  * PostgreSQL layer for DBO.
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -57,7 +55,6 @@ class DboPostgres extends DboSource {
  * @access protected
  */
 	protected $_baseConfig = array(
-		'connect'	=> 'pg_pconnect',
 		'persistent' => true,
 		'host' => 'localhost',
 		'login' => 'root',
@@ -88,6 +85,7 @@ class DboPostgres extends DboSource {
  * Starting Quote
  *
  * @var string
+ * @access public
  */
 	public $startQuote = '"';
 
@@ -95,6 +93,7 @@ class DboPostgres extends DboSource {
  * Ending Quote
  *
  * @var string
+ * @access public
  */
 	public $endQuote = '"';
 

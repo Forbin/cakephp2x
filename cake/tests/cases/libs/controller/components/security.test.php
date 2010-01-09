@@ -2,8 +2,6 @@
 /**
  * SecurityComponentTest file
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) Tests <https://trac.cakephp.org/wiki/Developement/TestSuite>
@@ -145,7 +143,7 @@ class SecurityComponentTest extends CakeTestCase {
  * @access public
  * @return void
  */
-	function setUp() {
+	function startTest() {
 		$this->Controller = new SecurityTestController();
 		$this->Controller->Component->init($this->Controller);
 		$this->Controller->Security = $this->Controller->TestSecurity;
@@ -160,12 +158,37 @@ class SecurityComponentTest extends CakeTestCase {
  * @access public
  * @return void
  */
-	function tearDown() {
+	function endTest() {
 		Configure::write('Security.salt', $this->oldSalt);
 		$this->Controller->Session->delete('_Token');
 		unset($this->Controller->Security);
 		unset($this->Controller->Component);
 		unset($this->Controller);
+	}
+
+/**
+ * test that initalize can set properties.
+ *
+ * @return void
+ */
+	function testInitialize() {
+		$settings = array(
+			'requirePost' => array('edit', 'update'),
+			'requireSecure' => array('update_account'),
+			'requireGet' => array('index'),
+			'validatePost' => false,
+			'loginUsers' => array(
+				'mark' => 'password'
+			),
+			'requireLogin' => array('login'),
+		);
+		$this->Controller->Security->initialize($this->Controller, $settings);
+		$this->assertEqual($this->Controller->Security->requirePost, $settings['requirePost']);
+		$this->assertEqual($this->Controller->Security->requireSecure, $settings['requireSecure']);
+		$this->assertEqual($this->Controller->Security->requireGet, $settings['requireGet']);
+		$this->assertEqual($this->Controller->Security->validatePost, $settings['validatePost']);
+		$this->assertEqual($this->Controller->Security->loginUsers, $settings['loginUsers']);
+		$this->assertEqual($this->Controller->Security->requireLogin, $settings['requireLogin']);
 	}
 
 /**
@@ -1178,6 +1201,24 @@ DIGEST;
 		$expected = 'WWW-Authenticate: Basic realm="'.$realm.'"';
 		$this->assertEqual(count($this->Controller->testHeaders), 1);
 		$this->assertEqual(current($this->Controller->testHeaders), $expected);
+	}
+
+/**
+ * test that a requestAction's controller will have the _Token appended to
+ * the params.
+ *
+ * @return void
+ * @see http://cakephp.lighthouseapp.com/projects/42648/tickets/68
+ */
+	function testSettingTokenForRequestAction() {
+		$this->Controller->Security->startup($this->Controller);
+		$key = $this->Controller->params['_Token']['key'];
+
+		$this->Controller->params['requested'] = 1;
+		unset($this->Controller->params['_Token']);
+
+		$this->Controller->Security->startup($this->Controller);
+		$this->assertEqual($this->Controller->params['_Token']['key'], $key);
 	}
 }
 ?>

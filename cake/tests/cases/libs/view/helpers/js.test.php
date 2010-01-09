@@ -214,7 +214,7 @@ class JsHelperTestCase extends CakeTestCase {
 		$this->_useMock();
 		$this->Js->buffer('one = 1;');
 		$this->Js->buffer('two = 2;');
-		$result = $this->Js->writeBuffer(array('onDomReady' => false, 'cache' => false));
+		$result = $this->Js->writeBuffer(array('onDomReady' => false, 'cache' => false, 'clear' => false));
 		$expected = array(
 			'script' => array('type' => 'text/javascript'),
 			$this->cDataStart,
@@ -225,11 +225,34 @@ class JsHelperTestCase extends CakeTestCase {
 		$this->assertTags($result, $expected, true);
 
 		$this->Js->TestJsEngine->expectAtLeastOnce('domReady');
-		$result = $this->Js->writeBuffer(array('onDomReady' => true, 'cache' => false));
+		$result = $this->Js->writeBuffer(array('onDomReady' => true, 'cache' => false, 'clear' => false));
+
+		ClassRegistry::removeObject('view');
+		$view =& new JsHelperMockView();
+		ClassRegistry::addObject('view', $view);
+
+		$view->expectCallCount('addScript', 1);
+		$view->expectAt(0, 'addScript', array(new PatternExpectation('/one\s\=\s1;\ntwo\s\=\s2;/')));
+		$result = $this->Js->writeBuffer(array('onDomReady' => false, 'inline' => false, 'cache' => false));
+	}
+
+/**
+ * test that writing the buffer with inline = false includes a script tag.
+ *
+ * @return void
+ */
+	function testWriteBufferNotInline() {
+		$this->Js->set('foo', 1);
 
 		$view =& new JsHelperMockView();
-		$view->expectAt(0, 'addScript', array(new PatternExpectation('/one\s=\s1;\ntwo\=\2;/')));
-		$result = $this->Js->writeBuffer(array('onDomReady' => false, 'inline' => false, 'cache' => false));
+		ClassRegistry::removeObject('view');
+		ClassRegistry::addObject('view', $view);
+		$view->expectCallCount('addScript', 1);
+
+		$pattern = new PatternExpectation('#<script type="text\/javascript">window.app \= \{"foo"\:1\}\;<\/script>#');
+		$view->expectAt(0, 'addScript', array($pattern));
+
+		$result = $this->Js->writeBuffer(array('onDomReady' => false, 'inline' => false, 'safe' => false));
 	}
 
 /**
@@ -451,14 +474,14 @@ CODE;
 		$this->Js->set('loggedIn', true);
 		$this->Js->set(array('height' => 'tall', 'color' => 'purple'));
 		$result = $this->Js->getBuffer();
-		$expected = 'var app = {"loggedIn":true,"height":"tall","color":"purple"};';
+		$expected = 'window.app = {"loggedIn":true,"height":"tall","color":"purple"};';
 		$this->assertEqual($result[0], $expected);
 
 		$this->Js->set('loggedIn', true);
 		$this->Js->set(array('height' => 'tall', 'color' => 'purple'));
 		$this->Js->setVariable = 'WICKED';
 		$result = $this->Js->getBuffer();
-		$expected = 'var WICKED = {"loggedIn":true,"height":"tall","color":"purple"};';
+		$expected = 'window.WICKED = {"loggedIn":true,"height":"tall","color":"purple"};';
 		$this->assertEqual($result[0], $expected);
 
 		$this->Js->set('loggedIn', true);
@@ -468,8 +491,24 @@ CODE;
 		$expected = 'Application.variables = {"loggedIn":true,"height":"tall","color":"purple"};';
 		$this->assertEqual($result[0], $expected);
 	}
-}
 
+/**
+ * test that vars set with Js->set() go to the top of the buffered scripts list.
+ *
+ * @return void
+ */
+	function testSetVarsAtTopOfBufferedScripts() {
+		$this->Js->set(array('height' => 'tall', 'color' => 'purple'));
+		$this->Js->alert('hey you!', array('buffer' => true));
+		$this->Js->confirm('Are you sure?', array('buffer' => true));
+		$result = $this->Js->getBuffer(false);
+		
+		$expected = 'window.app = {"height":"tall","color":"purple"};';
+		$this->assertEqual($result[0], $expected);
+		$this->assertEqual($result[1], 'alert("hey you!");');
+		$this->assertEqual($result[2], 'confirm("Are you sure?");');
+	}
+}
 
 /**
  * JsBaseEngine Class Test case

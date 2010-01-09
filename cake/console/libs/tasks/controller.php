@@ -2,8 +2,6 @@
 /**
  * The ControllerTask handles creating and updating controller files.
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -59,6 +57,7 @@ class ControllerTask extends Shell {
  */
 	function initialize() {
 	}
+
 /**
  * Execution method always used for tasks
  *
@@ -106,6 +105,7 @@ class ControllerTask extends Shell {
 			}
 		}
 	}
+
 /**
  * Bake All the controllers at once.  Will only bake controllers for models that exist.
  *
@@ -212,6 +212,7 @@ class ControllerTask extends Shell {
 			}
 		}
 	}
+
 /**
  * Confirm a to be baked controller with the user
  *
@@ -327,6 +328,7 @@ class ControllerTask extends Shell {
 		}
 		return false;
 	}
+
 /**
  * Assembles and writes a unit test file
  *
@@ -381,6 +383,7 @@ class ControllerTask extends Shell {
 		}
 		return array_filter($property);
 	}
+
 /**
  * Outputs and gets the list of possible controllers from database
  *
@@ -440,6 +443,7 @@ class ControllerTask extends Shell {
 		}
 		return $controllerName;
 	}
+
 /**
  * Displays help contents
  *
@@ -465,12 +469,12 @@ class ControllerTask extends Shell {
 		$this->out("\t(index, view, add, edit, delete)");
 		$this->out();
 		$this->out("controller <name> admin");
-		$this->out("\tbakes a controller with basic crud actions for");
-		$this->out("\tConfigure::read('Routing.admin') methods.");
+		$this->out("\tbakes a controller with basic crud actions for one of the");
+		$this->out("\tConfigure::read('Routing.prefixes') methods.");
 		$this->out();
 		$this->out("controller <name> public admin");
-		$this->out("\tbakes a controller with basic crud actions for");
-		$this->out("\tConfigure::read('Routing.admin') and non admin methods.");
+		$this->out("\tbakes a controller with basic crud actions for one");
+		$this->out("\tConfigure::read('Routing.prefixes') and non admin methods.");
 		$this->out("\t(index, view, add, edit, delete,");
 		$this->out("\tadmin_index, admin_view, admin_edit, admin_add, admin_delete)");
 		$this->out();

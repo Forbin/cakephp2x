@@ -168,14 +168,16 @@ class RequestHandlerComponent extends Object {
  * as the first item.
  *
  * @param object $controller A reference to the controller
+ * @param array $settings Array of settings to _set().
  * @return void
  * @see Router::parseExtensions()
  * @access public
  */
-	public function initialize(&$controller) {
+	public function initialize($controller, $settings = array()) {
 		if (isset($controller->params['url']['ext'])) {
 			$this->ext = $controller->params['url']['ext'];
 		}
+		$this->_set($settings);
 	}
 
 /**
@@ -411,7 +413,7 @@ class RequestHandlerComponent extends Object {
  * @return string Server address
  * @access public
  */
-	public function getReferrer() {
+	public function getReferer() {
 		if (env('HTTP_HOST') != null) {
 			$sessHost = env('HTTP_HOST');
 		}

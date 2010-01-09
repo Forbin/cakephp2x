@@ -2,8 +2,6 @@
 /**
  * Short description for file.
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -22,8 +20,6 @@
 
 /**
  * Short description for file.
- *
- * Long description for file
  *
  * @package       cake
  * @subpackage    cake.cake.libs
@@ -402,7 +398,7 @@ class L10n extends Object {
  * @access private
  */
 	private function __autoLanguage() {
-		$_detectableLanguages = split('[,;]', env('HTTP_ACCEPT_LANGUAGE'));
+		$_detectableLanguages = preg_split('/[,;]/', env('HTTP_ACCEPT_LANGUAGE'));
 		foreach ($_detectableLanguages as $key => $langKey) {
 			$langKey = strtolower($langKey);
 			if (strpos($langKey, '_') !== false) {

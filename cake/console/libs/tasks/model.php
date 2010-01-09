@@ -2,8 +2,6 @@
 /**
  * The ModelTask handles creating and updating models files.
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -35,6 +33,7 @@ class ModelTask extends Shell {
  * @access public
  */
 	var $plugin = null;
+
 /**
  * Name of the db connection used.
  *
@@ -50,6 +49,7 @@ class ModelTask extends Shell {
  * @access public
  */
 	var $path = MODELS;
+
 /**
  * tasks
  *
@@ -102,6 +102,7 @@ class ModelTask extends Shell {
 			}
 		}
 	}
+
 /**
  * Bake all models at once.
  *
@@ -236,6 +237,7 @@ class ModelTask extends Shell {
 				$this->_printAssociation($currentModelName, $assocKey, $associations);
 			}
 		}
+
 		$this->hr();
 		$looksGood = $this->in(__('Look okay?', true), array('y','n'), 'y');
 
@@ -252,6 +254,7 @@ class ModelTask extends Shell {
 			return false;
 		}
 	}
+
 /**
  * Print out all the associations of a particular type
  *
@@ -320,7 +323,6 @@ class ModelTask extends Shell {
 		if (empty($fields)) {
 			return false;
 		}
-
 		$validate = array();
 		$this->initValidations();
 		foreach ($fields as $fieldName => $field) {
@@ -598,9 +600,9 @@ class ModelTask extends Shell {
 			if (!empty($associations[$type])) {
 				$count = count($associations[$type]);
 				$response = 'y';
-				for ($i = 0; $i < $count; $i++) {
-					$prompt = "{$model->name} {$type} {$associations[$type][$i]['alias']}";
-					$response = $this->in("{$prompt}?", array('y','n'), 'y');
+				foreach ($associations[$type] as $i => $assoc) {
+					$prompt = "{$model->name} {$type} {$assoc['alias']}?";
+					$response = $this->in($prompt, array('y','n'), 'y');
 
 					if ('n' == strtolower($response)) {
 						unset($associations[$type][$i]);
@@ -680,6 +682,7 @@ class ModelTask extends Shell {
 		}
 		return $associations;
 	}
+
 /**
  * Finds all possible keys to use on custom associations.
  *
@@ -799,6 +802,7 @@ class ModelTask extends Shell {
 		}
 		return $useTable;
 	}
+
 /**
  * Get an Array of all the tables in the supplied connection
  * will halt the script if no tables are found.
@@ -830,6 +834,7 @@ class ModelTask extends Shell {
 		}
 		return $tables;
 	}
+
 /**
  * Forces the user to specify the model he wants to bake, and returns the selected model name.
  *
@@ -861,6 +866,7 @@ class ModelTask extends Shell {
 		}
 		return $currentModelName;
 	}
+
 /**
  * Displays help contents
  *
@@ -889,6 +895,7 @@ class ModelTask extends Shell {
 		$this->out();
 		$this->_stop();
 	}
+
 /**
  * Interact with FixtureTask to automatically bake fixtures when baking models.
  *

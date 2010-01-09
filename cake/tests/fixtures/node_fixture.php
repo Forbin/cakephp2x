@@ -2,8 +2,6 @@
 /**
  * Short description for file.
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -22,8 +20,6 @@
 
 /**
  * Short description for file.
- *
- * Long description for file
  *
  * @package       cake
  * @subpackage    cake.tests.fixtures

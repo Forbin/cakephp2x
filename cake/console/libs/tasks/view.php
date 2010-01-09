@@ -2,8 +2,6 @@
 /**
  * The View Tasks handles creating and updating view files.
  *
- * Long description for file
- *
  * PHP Version 5.x
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -92,6 +90,7 @@ class ViewTask extends Shell {
  */
 	function initialize() {
 	}
+
 /**
  * Execution method always used for tasks
  *
@@ -139,6 +138,7 @@ class ViewTask extends Shell {
 			}
 		}
 	}
+
 /**
  * Get a list of actions that can / should have views baked for them.
  *
@@ -246,6 +246,7 @@ class ViewTask extends Shell {
 			$this->customAction();
 		}
 	}
+
 /**
  * Loads Controller and sets variables for the template
  * Available template variables
@@ -300,6 +301,7 @@ class ViewTask extends Shell {
 		return compact('modelClass', 'schema', 'primaryKey', 'displayField', 'singularVar', 'pluralVar',
 				'singularHumanName', 'pluralHumanName', 'fields','associations');
 	}
+
 /**
  * Bake a view file for each of the supplied actions
  *
@@ -362,6 +364,7 @@ class ViewTask extends Shell {
 		$filename = $path . $this->controllerPath . DS . Inflector::underscore($action) . '.ctp';
 		return $this->createFile($filename, $content);
 	}
+
 /**
  * Builds content from template and variables
  *
@@ -385,6 +388,7 @@ class ViewTask extends Shell {
 		}
 		return false;
 	}
+
 /**
  * Gets the template name based on the action name
  *
@@ -448,6 +452,7 @@ class ViewTask extends Shell {
 		$this->out("\tRequires that models and controllers exist.");
 		$this->_stop();
 	}
+
 /**
  * Returns associations for controllers models.
  *
